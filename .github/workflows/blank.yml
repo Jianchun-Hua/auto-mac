@@ -23,7 +23,7 @@ jobs:
     - name: Build with PyInstaller
       run: |
         # 注意：Mac下不用加 -w，否则 input() 无法输入
-        pyinstaller -F auto_sender_mac.py
+        pyinstaller -F main(mac).py
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4  # 【关键修复】升级到了 v4
