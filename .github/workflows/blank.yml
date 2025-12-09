@@ -1,0 +1,32 @@
+name: Build Mac App
+
+on:
+  push:
+    branches: [ "main" ] # 当你推送到 main 分支时触发
+
+jobs:
+  build:
+    runs-on: macos-latest # 重点：指定在 Mac 系统上运行！
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Build with PyInstaller
+      run: |
+        # -F 打包成单文件
+        pyinstaller -F auto_sender_mac.py
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: mac-app-executable
+        path: dist/auto_sender_mac # 上传打包好的文件
