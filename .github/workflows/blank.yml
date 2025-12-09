@@ -2,17 +2,17 @@ name: Build Mac App
 
 on:
   push:
-    branches: [ "main" ] # 当你推送到 main 分支时触发
+    branches: [ "main" ]
 
 jobs:
   build:
-    runs-on: macos-latest # 重点：指定在 Mac 系统上运行！
+    runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4  # 升级到了 v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5  # 升级到了 v5
       with:
         python-version: '3.10'
 
@@ -22,11 +22,11 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        # -F 打包成单文件
+        # 注意：Mac下不用加 -w，否则 input() 无法输入
         pyinstaller -F auto_sender_mac.py
 
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # 【关键修复】升级到了 v4
       with:
         name: mac-app-executable
-        path: dist/auto_sender_mac # 上传打包好的文件
+        path: dist/auto_sender_mac
